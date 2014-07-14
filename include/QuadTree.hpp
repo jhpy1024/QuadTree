@@ -10,9 +10,10 @@ class QuadTree
 
     public:
         QuadTree(const sf::FloatRect& bounds, int nodeCapacity);
+        ~QuadTree();
 
-        void insert(const std::vector<sf::Vector2i>& points);
-        bool insert(const sf::Vector2i& point);
+        void insert(const std::vector<sf::Vector2f>& points);
+        bool insert(const sf::Vector2f& point);
         void clear();
 
     private:
@@ -20,7 +21,7 @@ class QuadTree
 
     private:
         const unsigned NODE_CAPACITY;
-        std::vector<sf::Vector2i> m_Points;
+        std::vector<sf::Vector2f> m_Points;
 
         sf::FloatRect m_Bounds;
 

@@ -4,6 +4,7 @@
 #include "QuadTree.hpp"
 #include "QuadTreeRenderer.hpp"
 
+#include <vector>
 #include <string>
 #include <SFML/Graphics.hpp>
 
@@ -32,6 +33,10 @@ private:
 
     QuadTree* m_QuadTree;
     QuadTreeRenderer* m_QuadTreeRenderer;
+
+    std::vector<sf::Vector2f> m_Points;
+    std::vector<sf::Vector2f> m_PointVelocities;
+    const float POINT_SPEED;
 };
 
 #endif

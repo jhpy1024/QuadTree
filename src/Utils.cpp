@@ -4,6 +4,8 @@
 #include <sstream>
 #include <stdexcept>
 
+const float Utils::PI = 3.1415926535f;
+
 std::vector<std::string> Utils::splitString(const std::string& str, char delim)
 {
     std::vector<std::string> items;
@@ -32,4 +34,9 @@ int Utils::stringToInt(const std::string& str, int defaultValue)
     }
     
     return returnValue;
+}
+
+float Utils::randomAngle()
+{
+    return static_cast<float>(rand()) / (static_cast<float>(RAND_MAX) / PI);
 }

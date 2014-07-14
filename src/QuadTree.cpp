@@ -11,13 +11,21 @@ QuadTree::QuadTree(const sf::FloatRect& bounds, int nodeCapacity)
 
 }
 
-void QuadTree::insert(const std::vector<sf::Vector2i>& points)
+QuadTree::~QuadTree()
+{
+    delete m_NorthWest;
+    delete m_NorthEast;
+    delete m_SouthWest;
+    delete m_SouthEast;
+}
+
+void QuadTree::insert(const std::vector<sf::Vector2f>& points)
 {
     for (auto& point : points)
         insert(point);
 }
 
-bool QuadTree::insert(const sf::Vector2i& point)
+bool QuadTree::insert(const sf::Vector2f& point)
 {
     // The point is not within the bounds of this node so 
     // should not be added to this node
