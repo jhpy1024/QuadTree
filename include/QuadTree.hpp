@@ -1,6 +1,7 @@
 #ifndef QUAD_TREE_HPP
 #define QUAD_TREE_HPP
 
+#include <vector>
 #include <SFML/Graphics.hpp>
 
 class QuadTree
@@ -10,7 +11,9 @@ class QuadTree
     public:
         QuadTree(const sf::FloatRect& bounds, int nodeCapacity);
 
+        void insert(const std::vector<sf::Vector2i>& points);
         bool insert(const sf::Vector2i& point);
+        void clear();
 
     private:
         void subdivide();
