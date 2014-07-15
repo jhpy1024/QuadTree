@@ -59,10 +59,10 @@ void QuadTree::clear()
 {
     m_Points.clear();
 
-    m_NorthWest->clear();
-    m_NorthEast->clear();
-    m_SouthWest->clear();
-    m_SouthEast->clear();
+    if (m_NorthWest) m_NorthWest->clear();
+    if (m_NorthEast) m_NorthEast->clear();
+    if (m_SouthWest) m_SouthWest->clear();
+    if (m_SouthEast) m_SouthEast->clear();
 
     delete m_NorthWest;
     delete m_NorthEast;

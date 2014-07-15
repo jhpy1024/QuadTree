@@ -8,7 +8,7 @@ Application::Application(int width, int height)
     , m_Height(height)
     , m_Window(sf::VideoMode(width, height), "QuadTree", sf::Style::Close)
     , MOUSE_CLICK_DELAY(sf::milliseconds(50))
-    , m_QuadTree(new QuadTree(sf::FloatRect(0.f, 0.f, m_Width, m_Height), 1))
+    , m_QuadTree(new QuadTree(sf::FloatRect(0.f, 0.f, m_Width, m_Height), 4))
     , m_QuadTreeRenderer(new QuadTreeRenderer(m_Window, m_QuadTree))
     , POINT_SPEED(100.f)
 {
@@ -38,7 +38,7 @@ Application::Application(const std::string& args)
 
     m_Window.create(sf::VideoMode(m_Width, m_Height), "QuadTree", sf::Style::Close);
 
-    m_QuadTree = new QuadTree(sf::FloatRect(0.f, 0.f, m_Width, m_Height), 1);
+    m_QuadTree = new QuadTree(sf::FloatRect(0.f, 0.f, m_Width, m_Height), 4);
     m_QuadTreeRenderer = new QuadTreeRenderer(m_Window, m_QuadTree);
 }
 
@@ -78,19 +78,7 @@ void Application::handleInput()
     if (m_MouseCooldownClock.getElapsedTime() >= MOUSE_CLICK_DELAY)
     {
         if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
-        {
-            auto point = sf::Mouse::getPosition(m_Window);
-            auto angle = Utils::randomAngle();
-            auto velocity = sf::Vector2f(std::cos(angle), std::sin(angle));
-
-            m_Points.push_back((sf::Vector2f) point);
-            m_PointVelocities.push_back(velocity);
-
-            m_QuadTree->clear();
-            m_QuadTree->insert(m_Points);
-
-            m_MouseCooldownClock.restart();
-        }
+            createPointAtMouse();
     }
 }
 
@@ -106,8 +94,7 @@ void Application::update(const sf::Time& delta)
         m_Points[i] += (m_PointVelocities[i] * POINT_SPEED * delta.asSeconds());
     }
 
-    m_QuadTree->clear();
-    m_QuadTree->insert(m_Points);
+    rebuildQuadTree();
 }
 
 void Application::draw()
@@ -117,4 +104,27 @@ void Application::draw()
     m_QuadTreeRenderer->draw();
 
     m_Window.display();
+}
+
+void Application::createPointAtMouse()
+{
+    for (int i = 0; i < 5; ++i)
+    {
+        auto point = sf::Mouse::getPosition(m_Window);
+        auto angle = Utils::randomAngle();
+        auto velocity = sf::Vector2f(std::cos(angle), std::sin(angle));
+
+        m_Points.push_back((sf::Vector2f) point);
+        m_PointVelocities.push_back(velocity);
+    }
+
+    rebuildQuadTree();
+
+    m_MouseCooldownClock.restart();
+}
+
+void Application::rebuildQuadTree()
+{
+    m_QuadTree->clear();
+    m_QuadTree->insert(m_Points);
 }

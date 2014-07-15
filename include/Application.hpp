@@ -22,6 +22,10 @@ public:
     void draw();
 
 private:
+    void createPointAtMouse();
+    void rebuildQuadTree();
+
+private:
     int m_Width;
     int m_Height;
 
